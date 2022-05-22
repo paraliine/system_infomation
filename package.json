@@ -5,10 +5,10 @@
   "type": "module",
   "main": "background.ts",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 8000",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "electron": "wait-on tcp:3000 && electron .",
+    "electron": "wait-on tcp:8000 && electron .",
     "electron:serve": "concurrently -k \"pnpm dev\" \"pnpm electron\""
   },
   "dependencies": {
