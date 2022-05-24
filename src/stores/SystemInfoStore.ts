@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
-
-class CpuInfo{
+export class CpuInfo{
     manufacturer: string;
     brand: string;
     cores: number;
@@ -18,7 +17,7 @@ class CpuInfo{
     }
 }
 
-class MemoryInfo{
+export class MemoryInfo{
     total: number;
     free: number;
     used: number;
@@ -31,7 +30,7 @@ class MemoryInfo{
 }
 
 
-const systemInfoStore = defineStore('cpuInfo', {
+export const systemInfoStore = defineStore('cpuInfo', {
     state: () => {
         return {
             cpuInfo: new CpuInfo("", "", 0, 0, 0, 0),
@@ -41,4 +40,3 @@ const systemInfoStore = defineStore('cpuInfo', {
     }
 });
 
-module.exports = systemInfoStore;

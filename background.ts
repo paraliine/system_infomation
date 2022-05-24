@@ -1,14 +1,19 @@
 // @ts-ignore
 
+require('ts-node').register({
+    transpileOnly: true
+    // insert other options with a boolean flag here
+})
+
 
 const { app, protocol, BrowserWindow ,ipcMain} = require('electron')
 const path = require('path')
-const {systemInfoStore} = require('./src/stores/SystemInfoStore');
+
 
 function createWindow () {
     // 创建浏览器窗口
     const mainWindow = new BrowserWindow({
-      width: 800,
+      width: 900,
       height: 600,
       webPreferences: {
           webSecurity: false,
@@ -19,7 +24,7 @@ function createWindow () {
     })
   
     // 加载 index.html
-    mainWindow.loadURL("http://localhost:3000") // 此处跟electron官网路径不同，需要注意
+    mainWindow.loadURL("http://localhost:8000") // 此处跟electron官网路径不同，需要注意
     // 打开开发工具
     // mainWindow.webContents.openDevTools()
   }
@@ -46,20 +51,26 @@ app.whenReady().then(() => {
   // 在这个文件中，你可以包含应用程序剩余的所有部分的代码，
   // 也可以拆分成几个文件，然后用 require 导入
 
+
+
 const si = require('systeminformation');
 
-const systemStore = systemInfoStore();
 
-
-ipcMain.on("Watch",(event,args)=>{
+ipcMain.handle("Get", async (event, args) => {
     if (args === "CPU") {
         let queryObject={
             cpu: 'manufacturer,brand,cores,physicalCores,speedMax,speedMin'
         }
-        let result = si.get(queryObject);
-        systemStore.$patch({
-            cpuInfo: result.cpu
-        });
-
+        let result = await si.get(queryObject);
+        return result.cpu;
     }
-})
+
+    if (args === "Memory") {
+        let queryObject = {
+            mem: "total,free,used",
+        };
+        let result = await si.get(queryObject);
+        return result.mem;
+    }
+
+});

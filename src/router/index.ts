@@ -1,11 +1,23 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import HelloWorld from '../components/HelloWorld.vue'
+import CPUView from '../views/CPUView.vue'
+import MemoryView from '../views/MemoryView.vue'
+import OverView from '../views/OverView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        name: 'cpu',
-        component: HelloWorld
+        name: 'overview',
+        component: OverView
+    },
+    {
+        path:'/cpu',
+        name:'cpu',
+        component:CPUView
+    },
+    {
+        path:'/memory',
+        name:'memory',
+        component: MemoryView
     }
 ]
 
