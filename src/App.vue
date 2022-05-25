@@ -13,13 +13,13 @@
         >
           <el-menu-item index="/">
             <el-icon>
-              <icon-menu/>
+              <set-up/>
             </el-icon>
             <span>Overview</span>
           </el-menu-item>
           <el-menu-item index="/cpu">
             <el-icon>
-              <icon-menu/>
+              <postcard/>
             </el-icon>
             <span>CPU</span>
           </el-menu-item>
@@ -49,8 +49,8 @@
 
 <script setup lang="ts">
 import {
-  Location,
-  Document,
+  SetUp,
+  Postcard,
   Menu as IconMenu,
   Setting,
 } from "@element-plus/icons-vue"
@@ -69,25 +69,74 @@ const handleOpen = (key: string, keyPath: string[]) => {
 
 const watcher = (args: any) => {
   if (args === "CPU") {
-    ipcRenderer.invoke("Get", "CPU").then((result) => {
-      systemStore.cpuInfo = result;
-    })
+
   }
 }
 
-const interval = 1000;
+const highFrequency = 2000;
+const lowFrequency = 5000;
 
 const initialize = () => {
-    //执行相关的动态监听工作
 
-  setInterval(watchSystemInfo, interval);
+  getSystemInfo();
+  setInterval(watchSystemInfoLow, lowFrequency);
+  setInterval(watchSystemInfoHigh, highFrequency);
 }
 
-const watchSystemInfo = () =>{
-  ipcRenderer.invoke("Get","Memory").then((result)=>{
+
+const getSystemInfo = () =>{
+  //Get system static info
+  ipcRenderer.invoke("Get", "Overview").then((result) => {
+    console.log("Get Overview");
+    systemStore.systemInfo=result.system;
+    systemStore.biosInfo=result.bios;
+    systemStore.baseboardInfo=result.baseboard;
+    systemStore.osInfo=result.osInfo;
+  });
+  //Overview
+
+
+  //CPU
+  ipcRenderer.invoke("Get", "CPU").then((result) => {
+    systemStore.cpuInfo = result;
+  });
+
+  //GPUStatic
+  ipcRenderer.invoke("Get", "GPUStatic").then((result) => {
+    systemStore.gpuStaticInfo = result;
+  });
+
+
+
+
+
+}
+
+const watchSystemInfoLow = () =>{
+  //GEt system dynamic info
+
+  //Memory
+  // ipcRenderer.invoke("Get", "Memory").then((result) => {
+  //   systemStore.memoryInfo = result;
+  // });
+
+  //GPUDynamic
+  // ipcRenderer.invoke("Get", "GPUDynamic").then((result) => {
+  //   systemStore.gpuDynamicInfo = result;
+  // });
+
+}
+
+const watchSystemInfoHigh =() =>{
+  //GEt system dynamic info
+
+  //Memory
+  ipcRenderer.invoke("Get", "Memory").then((result) => {
     systemStore.memoryInfo = result;
-  })
+  });
 }
+
+
 
 onBeforeMount(() => {
 
@@ -104,6 +153,6 @@ onMounted(() => {
 <style scoped>
 .container{
   min-height: 100vh;
-  background: var(--gray-2);
+  background: var(--gradient-9);
 }
 </style>

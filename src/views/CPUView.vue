@@ -1,14 +1,13 @@
 <template>
   <div class="container">
     <div class="card">
-      <div id="title">
+      <div class="title">
         CPU Info
       </div>
       <div class="content">
         Manufacturer: {{ cpuInfo.manufacturer }}
       </div>
-<!--      TODO:单个元素warp时如何全部居中 -->
-      <div class="content">
+      <div class="content" style="text-align: center">
         Brand: {{ cpuInfo.brand }}
       </div>
       <div class="content">
@@ -24,7 +23,6 @@
         MinSpeed:{{ cpuInfo.speedMin }} GHz
       </div>
     </div>
-
   </div>
 </template>
 
@@ -49,6 +47,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   console.log("HomeView Mounted");
+  //TODO:感觉没有必要
   emitter.emit("Watch", "CPU");
 
 
@@ -57,12 +56,15 @@ onMounted(() => {
 
 </script>
 <style scoped>
+
+
 .container {
   height: 100%;
   display: flex;
   /*flex-direction: column;*/
   justify-content: center;
   align-items: center;
+
 }
 
 .card {
@@ -78,14 +80,22 @@ onMounted(() => {
   background: var(--gray-0);
 }
 
+
+
+
 .content {
   font-size: var(--font-size-3);
-  font-weight: var(--font-weight-4);
+  font-weight: var(--font-weight-6);
+  font-family: 'JetBrains Mono', monospace;
 }
 
-#title {
+.title {
+  background: var(--gradient-4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-size: var(--font-size-6);
   font-weight: var(--font-weight-6);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 </style>

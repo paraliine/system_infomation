@@ -7,7 +7,7 @@ import 'element-plus/dist/index.css'
 import {createPinia} from "pinia";
 import './assets/normalize.min.css'
 import './assets/open-props.min.css'
-
+import './assets/global.css'
 
 createApp(App)
     .use(ElementPlus)

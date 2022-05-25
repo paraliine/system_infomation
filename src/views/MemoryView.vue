@@ -2,12 +2,12 @@
   <div class="container">
 
     <div class="card">
-      <div>
-        <p id="title">Memory</p>
+      <div class="title">
+        Memory
       </div>
-      <div  id="chart">
-<!--        TODO:chart的大小自适应-->
-        <div id="pie" style="height: 400px;width: 400px; margin: 0 auto;"></div>
+      <div id="chart">
+        <!--        TODO:chart的大小自适应-->
+        <div id="pie"></div>
       </div>
 
     </div>
@@ -40,6 +40,17 @@ onMounted(() => {
 
   memChart.value = echarts.init(document.getElementById('pie'), null);
 });
+
+
+window.onresize = function () {
+
+  memChart.value.resize({
+    animation:{
+      duration:500,
+      easing:'cubicInOut'
+    }
+  });
+};
 
 watch(memInfo, (newMemInfo) => {
   memChart.value.setOption({
@@ -91,18 +102,26 @@ watch(memInfo, (newMemInfo) => {
   background: var(--gray-0);
 }
 
-#title {
+.title {
+  background: var(--gradient-4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   padding-top: var(--size-fluid-3);
   font-size: var(--font-size-6);
   font-weight: var(--font-weight-6);
+  font-family: 'JetBrains Mono', monospace;
 }
+
 #chart {
   width: 100%;
   height: 100%;
-
 }
 
-
+#pie {
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+}
 
 
 </style>
